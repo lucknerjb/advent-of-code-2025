@@ -40,7 +40,6 @@ def find_invalid_ids(data: list[LiteralString] | list[str], part_1_or_2: int=1) 
 
                 if left_half == right_half:
                     invalid_ids.append(i)
-            
                 continue
 
             # Part 2
@@ -79,8 +78,6 @@ def find_invalid_ids(data: list[LiteralString] | list[str], part_1_or_2: int=1) 
                 if all([not s for s in number_split_by_groups]):
                     invalid_ids.append(i)
                     break
-
-
     return invalid_ids
 
 
