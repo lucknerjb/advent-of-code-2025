@@ -29,16 +29,34 @@ def get_fresh_ingredient_count(data: list[LiteralString] | list[str], part_1_or_
     - Build a list of the IDs we are looking to check
     - Count the resulting intersection of these 2 lists
     """
+    # ranges = []
+    # # Build ranges
+    # for row in data[0].splitlines():
+    #     row_parts = row.split("-")
+    #     ranges = list(set(ranges + [number for number in range(int(row_parts[0]), int(row_parts[1]) + 1)]))
+
+    # # Build list of ingredient IDs
+    # ingredient_ids = [int(id_string) for id_string in data[1].splitlines()]
+
+    # return len([x for x in ingredient_ids if x in ranges])
+
     ranges = []
-    # Build ranges
     for row in data[0].splitlines():
         row_parts = row.split("-")
-        ranges = list(set(ranges + [number for number in range(int(row_parts[0]), int(row_parts[1]) + 1)]))
+        ranges.append({"start": int(row_parts[0]), "end": int(row_parts[1])})
+    print(ranges)
 
-    # Build list of ingredient IDs
+    count = 0
     ingredient_ids = [int(id_string) for id_string in data[1].splitlines()]
 
-    return len([x for x in ingredient_ids if x in ranges])
+    for ingredient_id in ingredient_ids:
+        for fresh_range in ranges:
+            if ingredient_id >= fresh_range["start"] and ingredient_id <= fresh_range["end"]:
+                count += 1
+                break
+
+    return count
+    
 
 if __name__ == "__main__":
     print("Advent of Code 2025 - Day 5")
