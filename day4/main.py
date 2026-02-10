@@ -64,6 +64,10 @@ def _get_roll_count_in_adjacent_cells(grid: list[list[str]], coordinates: list[t
 
     return count
 
+# def _remove_from_grid(grid: list[list[str], row: int, col: int) -> None:
+#     grid[x][y] = 'X'  # Mark roll as removed
+#     return grid
+
 def get_accessible_rolls(data: list[LiteralString] | list[str], part_1_or_2: int=1) -> int:
     """
     Approach:
@@ -77,21 +81,29 @@ def get_accessible_rolls(data: list[LiteralString] | list[str], part_1_or_2: int
     grid_column_count = len(grid[0])
     count = 0
     
-    for row_index, row in enumerate(grid):
-        for column_index, column in enumerate(row):
-            # Skip if we don't even have a roll in this cell
-            if column != "@":
-                continue
+    while True:
+        removed = False
+        for row_index, row in enumerate(grid):
+            print("==================================== NEW RUN ====================================")
+            for column_index, column in enumerate(row):
+                # Skip if we don't even have a roll in this cell
+                if column != "@":
+                    continue
 
-            print('==========================')
-            print(row_index, column_index, column)
-            coordinates = _get_adjacent_cell_coordinates(row_index, column_index)
-            print(row_index, column_index, coordinates)
-            roll_count = _get_roll_count_in_adjacent_cells(grid, coordinates, grid_row_count, grid_column_count)
-            print(roll_count)
-            count += 1 if roll_count < 4 else 0
-    # _get_roll_count_in_adjacent_cells
-    print(count)
+                print('==========================')
+                print(row_index, column_index, column)
+                coordinates = _get_adjacent_cell_coordinates(row_index, column_index)
+                print(row_index, column_index, coordinates)
+                roll_count = _get_roll_count_in_adjacent_cells(grid, coordinates, grid_row_count, grid_column_count)
+                print(roll_count)
+                if roll_count < 4:
+                    count += 1
+                    
+                    # Remove from grid
+                    grid[row_index][column_index] = 'X'
+                    removed = True
+        if part_1_or_2 == 1 or not removed:
+            break
     return count
 
 if __name__ == "__main__":
